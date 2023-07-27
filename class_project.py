@@ -18,10 +18,10 @@ from datetime import datetime, timedelta
 
 
 class Project:
-    _name: str
-    _start_date: datetime
-    _dead_line: datetime
-    _programmers: list[str]
+    __name: str
+    __start_date: datetime
+    __dead_line: datetime
+    __programmers: list[str]
 
     def __init__(self, name: str, start_date: datetime = datetime.now(), dead_line: datetime = None):
         """
@@ -31,20 +31,20 @@ class Project:
         :param dead_line: Планируемая дата окончания проекта.
             По умолчанию (если не определено иное) - Дата начала проекта + 30 дней.
         """
-        self._name = name
-        self._start_date = start_date
+        self.__name = name
+        self.__start_date = start_date
         if dead_line is None or dead_line <= start_date:
-            self._dead_line = self._start_date + timedelta(days=30)
-        self._programmers = list()
+            self.__dead_line = self.__start_date + timedelta(days=30)
+        self.__programmers = list()
 
     def __str__(self):
-        res = f'Название проекта:\t\t{self._name}\n' \
-              f'Дата начала:\t\t\t{self._start_date.strftime("%d.%m.%Y %H:%M:%S")}\n' \
-              f'Дата окончания проекта:\t{self._dead_line.strftime("%d.%m.%Y %H:%M:%S")}\n' \
+        res = f'Название проекта:\t\t{self.__name}\n' \
+              f'Дата начала:\t\t\t{self.__start_date.strftime("%d.%m.%Y %H:%M:%S")}\n' \
+              f'Дата окончания проекта:\t{self.__dead_line.strftime("%d.%m.%Y %H:%M:%S")}\n' \
               f'{"-" * 43}\nСписок участников проекта (программистов):\n'
-        if bool(self._programmers):
-            for index in range(len(self._programmers)):
-                res += f'\t{index}. {self._programmers[index]}\n'
+        if bool(self.__programmers):
+            for index in range(len(self.__programmers)):
+                res += f'\t{index}. {self.__programmers[index]}\n'
         else:
             res += '--- НАД ПРОЕКТОМ НИКТО НЕ РАБОТАЕТ ---'.center(42)
         return res + f'{"-" * 43}\n'
@@ -54,9 +54,9 @@ class Project:
         Добавление программиста в список _programmers
         :param programmer: "Имя Фамилия" добавляемого программиста
         """
-        if programmer not in self._programmers:
-            self._programmers.append(programmer)
-            return len(self._programmers) - 1
+        if programmer not in self.__programmers:
+            self.__programmers.append(programmer)
+            return len(self.__programmers) - 1
         else:
             return -1
 
@@ -67,9 +67,9 @@ class Project:
         """
         try:
             if type(programmer) is int:
-                del self._programmers[programmer]
+                del self.__programmers[programmer]
             elif type(programmer) is str:
-                self._programmers.remove(programmer)
+                self.__programmers.remove(programmer)
             else:
                 raise ValueError(f'Необрабатываемый передаваемый тип аргумента {type(programmer)}')
         except Exception:  # [IndexError, ValueError]:
@@ -78,19 +78,19 @@ class Project:
             return True
 
     def set_name(self, value: str):
-        self._name = value
+        self.__name = value
 
     def set_start_date(self, value: datetime):
-        self._start_date = value
+        self.__start_date = value
 
     def set_dead_line(self, value: datetime):
-        self._dead_line = value
+        self.__dead_line = value
 
-    name: str = property(fget=lambda self: self._name, fset=set_name, doc='Название проекта')
-    start_date: datetime = property(fget=lambda self: self._start_date, fset=set_start_date, doc='Дата/время начала '
+    name: str = property(fget=lambda self: self.__name, fset=set_name, doc='Название проекта')
+    start_date: datetime = property(fget=lambda self: self.__start_date, fset=set_start_date, doc='Дата/время начала '
                                                                                                  'выполнения проекта')
-    dead_line: datetime = property(fget=lambda self: self._dead_line, fset=set_dead_line, doc='Срок выполнения проекта')
-    programmers: list[str] = property(fget=lambda self: self._programmers, doc='Список программистов')
+    dead_line: datetime = property(fget=lambda self: self.__dead_line, fset=set_dead_line, doc='Срок выполнения проекта')
+    programmers: list[str] = property(fget=lambda self: self.__programmers, doc='Список программистов')
 
 
 if __name__ == '__main__':
@@ -116,4 +116,7 @@ if __name__ == '__main__':
     main_project.dismiss_programmer('Сидоров Сидор')  # Увольняем 'Сидоров Сидор'
     main_project.dismiss_programmer(10)  # Увольняем отсутствующего в списке
     main_project.dismiss_programmer('Unknown Unknown')  # Увольняем отсутствующего в списке
+
+    main_project.__name = '123456'
+
     print(main_project)
