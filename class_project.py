@@ -117,6 +117,4 @@ if __name__ == '__main__':
     main_project.dismiss_programmer(10)  # Увольняем отсутствующего в списке
     main_project.dismiss_programmer('Unknown Unknown')  # Увольняем отсутствующего в списке
 
-    main_project.__name = '123456'
-
     print(main_project)
